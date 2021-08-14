@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, TextInput } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { TaskAPI } from "../data/taskAPI";
-import { Task } from "../components/taskItem";
-import { TouchableOpacity } from "react-native";
-import { StyleSheet } from "react-native";
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from "@react-native-community/datetimepicker";
 import dayjs from "dayjs";
 
 export default function CreateTaskScreen({ navigation }) {
@@ -33,18 +36,27 @@ export default function CreateTaskScreen({ navigation }) {
         placeholder="Task title"
         style={styles.input}
       />
-      <Text style={styles.selectedDueDate}>Due date: {dayjs(date.toString()).format("dddd, MMMM D, YYYY")}</Text>
-      <TouchableOpacity style={styles.dateButton} onPress={() => {setShow(true);}}>
+      <Text style={styles.selectedDueDate}>
+        Due date: {dayjs(date.toString()).format("dddd, MMMM D, YYYY")}
+      </Text>
+      <TouchableOpacity
+        style={styles.dateButton}
+        onPress={() => {
+          setShow(true);
+        }}
+      >
         <Text style={styles.dateButtonText}>Set due date</Text>
       </TouchableOpacity>
-      {show && <DateTimePicker
-        testID="dateTimePicker"
-        value={date}
-        mode="date"
-        is24Hour={true}
-        display="default"
-        onChange={onChangeDate}
-      />}
+      {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode="date"
+          is24Hour={true}
+          display="default"
+          onChange={onChangeDate}
+        />
+      )}
       <TouchableOpacity style={styles.submitButton} onPress={createNewTask}>
         <Text style={styles.buttonText}>Create</Text>
       </TouchableOpacity>
@@ -69,7 +81,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "black",
     fontSize: 20,
-    
   },
   buttonText: {
     textAlign: "center",
@@ -84,7 +95,7 @@ const styles = StyleSheet.create({
   },
   selectedDueDate: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
     margin: 10,
   },
 });

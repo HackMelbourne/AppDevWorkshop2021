@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,7 +9,6 @@ import {
 } from "react-native";
 import { TaskAPI } from "../data/taskAPI";
 import { Task } from "../components/taskItem";
-import { TouchableNativeFeedback } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function ToDoScreen({ navigation }) {
@@ -18,6 +16,7 @@ export default function ToDoScreen({ navigation }) {
   const [selectedTask, setSelectedTask] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
+  /** Update outstanding tasks whenever we navigate to the screen */
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       setToDoTasks(TaskAPI.getOutstandingTasks());
@@ -37,7 +36,7 @@ export default function ToDoScreen({ navigation }) {
     TaskAPI.deleteTask(selectedTask);
     setToDoTasks(TaskAPI.getOutstandingTasks());
     toggleModal();
-  }
+  };
 
   const updateTaskStatus = (newStatus) => {
     console.log("Updating task " + selectedTask + " with status " + newStatus);
@@ -66,43 +65,47 @@ export default function ToDoScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Modal visible={modalVisible} onRequestClose={toggleModal} transparent={true}>
+      <Modal
+        visible={modalVisible}
+        onRequestClose={toggleModal}
+        transparent={true}
+      >
         <View style={styles.modal}>
-        <View style={styles.modalBox}>
-          <TouchableOpacity onPress={toggleModal} style={styles.modalClose}>
-            <Ionicons name={"close"} size={30} color={"black"} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              updateTaskStatus("To do");
-              toggleModal();
-            }}
-            style={styles.modalButton}
-          >
-            <Text style={styles.buttonText}>Mark as to do</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              updateTaskStatus("In progress");
-              toggleModal();
-            }}
-            style={styles.modalButton}
-          >
-            <Text style={styles.buttonText}>Mark as in progress</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              updateTaskStatus("Completed");
-              toggleModal();
-            }}
-            style={styles.modalButton}
-          >
-            <Text style={styles.buttonText}>Mark as complete</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={deleteTask} style={styles.modalButton}>
-            <Text style={styles.buttonText}>Delete task</Text>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.modalBox}>
+            <TouchableOpacity onPress={toggleModal} style={styles.modalClose}>
+              <Ionicons name={"close"} size={30} color={"black"} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                updateTaskStatus("To do");
+                toggleModal();
+              }}
+              style={styles.modalButton}
+            >
+              <Text style={styles.buttonText}>Mark as to do</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                updateTaskStatus("In progress");
+                toggleModal();
+              }}
+              style={styles.modalButton}
+            >
+              <Text style={styles.buttonText}>Mark as in progress</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                updateTaskStatus("Completed");
+                toggleModal();
+              }}
+              style={styles.modalButton}
+            >
+              <Text style={styles.buttonText}>Mark as completed</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={deleteTask} style={styles.modalButton}>
+              <Text style={styles.buttonText}>Delete task</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
 
@@ -124,8 +127,8 @@ const styles = StyleSheet.create({
   },
   modal: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalBox: {
     margin: 10,
@@ -143,7 +146,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   modalClose: {
-    marginLeft: 'auto',
+    marginLeft: "auto",
   },
   modalButton: {
     borderRadius: 12,
@@ -155,7 +158,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "#ffffff",
-    textAlign: 'center',
+    textAlign: "center",
   },
   fab: {
     position: "absolute",
